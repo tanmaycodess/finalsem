@@ -2,8 +2,9 @@ import {
     useQuery,
     useMutation,
     useQueryClient,
-    useInfiniteQuery,
+    useInfiniteQuery
 } from "@tanstack/react-query";
+
 
 import { QUERY_KEYS } from "@/lib/react-query/queryKeys";
 import {

@@ -42,35 +42,37 @@ const PostForm = ({ post, action }: PostFormProps) => {
         useUpdatePost();
 
     // Handler
-    const handleSubmit = async (value: z.infer<typeof PostValidation>) => {
-        if (post && action === "Update") {
-            const updatedPost = await updatePost({
-                ...value,
-                postId: post.$id,
-                imageId: post.imageId,
-                imageUrl: post.imageUrl,
-            });
+     const handleSubmit = async (value: z.infer<typeof PostValidation>) => {
+    // ACTION = UPDATE
+    if (post && action === "Update") {
+      const updatedPost = await updatePost({
+        ...value,
+        postId: post.$id,
+        imageId: post.imageId,
+        imageUrl: post.imageUrl,
+      });
 
-            if (!updatedPost) {
-                toast({
-                    title: `${action} post failed. Please try again.`,
-                });
-            }
-            return navigate(`/posts/${post.$id}`);
-        }
-
-        const newPost = await createPost({
-            ...value,
-            userId: user.id,
+      if (!updatedPost) {
+        toast({
+          title: `${action} post failed. Please try again.`,
         });
+      }
+      return navigate(`/posts/${post.$id}`);
+    }
 
-        if (!newPost) {
-            toast({
-                title: `${action} post failed. Please try again.`,
-            });
-        }
-        navigate("/");
-    };
+    // ACTION = CREATE
+    const newPost = await createPost({
+      ...value,
+      userId: user.id,
+    });
+
+    if (!newPost) {
+      toast({
+        title: `${action} post failed. Please try again.`,
+      });
+    }
+    navigate("/");
+  };
 
     return (
         <Form {...form}>

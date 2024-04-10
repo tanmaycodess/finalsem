@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-
-
 import useDebounce from "@/hooks/useDebounce";
 import Loader from "@/components/shared/Loader";
 import GridPostList from "@/components/shared/GridPostList";
@@ -15,7 +13,7 @@ export type SearchResultProps = {
 const SearchResults = ({ isSearchFetching, searchedPosts }: SearchResultProps) => {
   if (isSearchFetching) {
     return <Loader />;
-  } else if (searchedPosts && searchedPosts.documents.length > 0) {
+  } else if (searchedPosts && searchedPosts.documents && searchedPosts.documents.length > 0) {
     return <GridPostList posts={searchedPosts.documents} />;
   } else {
     return (
@@ -25,28 +23,28 @@ const SearchResults = ({ isSearchFetching, searchedPosts }: SearchResultProps) =
 };
 
 const Explore = () => {
-  const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
+  const { data: posts, fetchNextPage } = useGetPosts();
 
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearch = useDebounce(searchValue, 500);
   const { data: searchedPosts, isFetching: isSearchFetching } = useSearchPosts(debouncedSearch);
 
   useEffect(() => {
-    if ( !searchValue) {
+    if (!searchValue) {
       fetchNextPage();
     }
   }, [searchValue]);
 
-  if (!posts)
+  if (!posts) {
     return (
       <div className="flex-center w-full h-full">
         <Loader />
       </div>
     );
+  }
 
   const shouldShowSearchResults = searchValue !== "";
-  const shouldShowPosts = !shouldShowSearchResults &&
-    posts.pages.every((item) => item.documents.length === 0);
+  const shouldShowPosts = !shouldShowSearchResults && posts.pages.every((item) => item && item.documents && item.documents.length === 0);
 
   return (
     <div className="explore-container">
@@ -86,11 +84,13 @@ const Explore = () => {
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
           posts.pages.map((item, index) => (
-            <GridPostList key={`page-${index}`} posts={item.documents} />
+            // Perform null/undefined checks before accessing item.documents
+            item && item.documents && item.documents.length > 0 ? (
+              <GridPostList key={`page-${index}`} posts={item.documents} />
+            ) : null
           ))
         )}
       </div>
-
     </div>
   );
 };

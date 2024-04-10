@@ -6,14 +6,14 @@ import { useState } from "react";
 
 const Saved = () => {
   const { data: currentUser } = useGetCurrentUser();
-  const [savePosts, setSavePosts] = useState<Models.Document[]>(currentUser?.save || []);
+  const [savePosts] = useState<Models.Document[]>(currentUser?.save || []);
 
-  const handleDeleteSavedPost = (postId: string) => {
-    // Perform deletion logic here
-    // For example, call a function to delete the saved post from the server
-    // After successful deletion, update the savePosts array
-    setSavePosts(prevPosts => prevPosts.filter(post => post.post.$id !== postId));
-  };
+  // const handledeleteSavedPost = (postId: string) => {
+  //   // Perform deletion logic here
+  //   // For example, call a function to delete the saved post from the server
+  //   // After successful deletion, update the savePosts array
+  //   setSavePosts(prevPosts => prevPosts.filter(post => post.post.$id !== postId));
+  // };
 
   return (
     <div className="saved-container">
@@ -42,7 +42,6 @@ const Saved = () => {
                   imageUrl: currentUser.imageUrl,
                 },
               }))}
-              onDeleteSavedPost={handleDeleteSavedPost}
               showStats={false}
             />
           )}
