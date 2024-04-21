@@ -14,7 +14,7 @@ export default function AuthLayout() {
           </section>
 
           <img
-            src="/assets/images/Pictify11.png"
+            src="/assets/images/Pictify12.png"
             alt="logo"
             className="hidden xl:block h-screen w-1/2 object-cover bg-no-repeat"
           />

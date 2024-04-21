@@ -27,7 +27,7 @@ const PostCard = ({ post }: PostCardProps) => {
                             alt="creator"
                             className="w-12 lg:h-12 rounded-full"
                         />
-                        <p className=" flex-center base-medium lg:body-bold text-light-1 mt-3">
+                        <p className=" flex-center base-medium lg:body-bold text-gray-100 mt-3">
                             {post.creator.name}
                         </p>
                     </Link>
@@ -78,7 +78,7 @@ const PostCard = ({ post }: PostCardProps) => {
 
                 </div>
 
-                <p className="mt-6 mb-6">{post.creator.name} : {post.caption}</p>
+                <p className="mt-6 mb-6 text-gray-100">{post.creator.name} : {post.caption}</p>
             </Link>
 
             <PostStats post={post} userId={user.id}/>

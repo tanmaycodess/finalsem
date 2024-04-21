@@ -44,27 +44,35 @@ const PostForm = ({ post, action }: PostFormProps) => {
     // Handler
      const handleSubmit = async (value: z.infer<typeof PostValidation>) => {
     // ACTION = UPDATE
-    if (post && action === "Update") {
-      const updatedPost = await updatePost({
-        ...value,
-        postId: post.$id,
-        imageId: post.imageId,
-        imageUrl: post.imageUrl,
-      });
+         if (post && action === "Update") {
+             const updatedPost = await updatePost({
+                 ...value,
+                 postId: post.$id,
+                 imageId: post.imageId,
+                 imageUrl: post.imageUrl,
+                 file: value.file || [], // Provide a default empty array if value.file is undefined
+                 caption: " ",
+             });
 
-      if (!updatedPost) {
-        toast({
-          title: `${action} post failed. Please try again.`,
-        });
-      }
-      return navigate(`/posts/${post.$id}`);
-    }
+             if (!updatedPost) {
+                 toast({
+                     title: `${action} post failed. Please try again.`,
+                 });
+             }
+             return navigate(`/posts/${post.$id}`);
+         }
+
+
 
     // ACTION = CREATE
-    const newPost = await createPost({
-      ...value,
-      userId: user.id,
-    });
+         const newPost = await createPost({
+             userId: user.id,
+             caption: value.caption || '', // Provide a default empty string if caption is undefined
+             file: value.file,
+             location: value.location,
+             tags: value.tags,
+         });
+
 
     if (!newPost) {
       toast({
@@ -84,10 +92,10 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     name="caption"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="shad-form_label">Caption</FormLabel>
+                            <FormLabel className="text-gray-200">Caption</FormLabel>
                             <FormControl>
                                 <Textarea
-                                    className="shad-textarea custom-scrollbar"
+                                    className="shad-textarea custom-scrollbar text-white"
                                     {...field}
                                 />
                             </FormControl>
@@ -101,7 +109,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     name="file"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="shad-form_label">Add Photos</FormLabel>
+                            <FormLabel className="text-gray-200">Add Photos</FormLabel>
                             <FormControl>
                                 <FileUploader
                                     fieldChange={field.onChange}
@@ -118,7 +126,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     name="location"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="shad-form_label">Add Location</FormLabel>
+                            <FormLabel className="text-gray-200">Add Location</FormLabel>
                             <FormControl>
                                 <Input type="text" className="shad-input" {...field} />
                             </FormControl>
@@ -132,7 +140,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     name="tags"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="shad-form_label">
+                            <FormLabel className="text-gray-200">
                                 Add Tags (separated by comma " , ")
                             </FormLabel>
                             <FormControl>

@@ -21,7 +21,7 @@ interface StatBlockProps {
 const StatBlock = ({ value, label }: StatBlockProps) => (
   <div className="flex-center gap-2">
     <p className="small-semibold lg:body-bold text-primary-500">{value}</p>
-    <p className="small-medium lg:base-medium text-light-2">{label}</p>
+    <p className="small-medium lg:base-medium text-gray-200">{label}</p>
   </div>
 );
 
@@ -55,7 +55,7 @@ const Profile = () => {
           />
           <div className="flex flex-col flex-1 justify-between md:mt-2">
             <div className="flex flex-col w-full">
-              <h1 className="text-center xl:text-left h3-bold md:h1-semibold w-full">
+              <h1 className="text-center xl:text-left h3-bold md:h1-semibold w-full text-gray-200">
                 {currentUser.name}
               </h1>
               <p className="small-regular md:body-medium text-light-3 text-center xl:text-left">
@@ -66,7 +66,7 @@ const Profile = () => {
             {/* Display Followers and Following Stats */}
             {/* Add your StatBlock components here for Followers and Following */}
 
-            <p className="small-medium md:base-medium text-center xl:text-left mb-7 max-w-screen-sm">
+            <p className="small-medium md:base-medium text-center xl:text-left mb-7 mt-4 max-w-screen-sm text-gray-200">
               {currentUser.bio}
             </p>
 
@@ -123,7 +123,7 @@ const Profile = () => {
             hasPosts ? (
               <GridPostList posts={currentUser.posts} showUser={false} />
             ) : (
-              <p className="text-center mt-4">No posts yet</p>
+              <p className="text-center mt-4 text-gray-200">No posts yet</p>
             )
           }
         />

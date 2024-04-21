@@ -88,7 +88,7 @@ const UpdateProfile = () => {
             alt="edit"
             className="invert-white"
           />
-          <h2 className="h3-bold md:h2-bold text-left w-full">Edit Profile</h2>
+          <h2 className="h3-bold md:h2-bold text-left w-full text-gray-200">Edit Profile</h2>
         </div>
 
         <Form {...form}>
@@ -171,7 +171,7 @@ const UpdateProfile = () => {
                   <FormLabel className="shad-form_label">Bio</FormLabel>
                   <FormControl>
                     <Textarea
-                      className="shad-textarea custom-scrollbar"
+                      className="shad-textarea custom-scrollbar text-gray-200"
                       {...field}
                     />
                   </FormControl>

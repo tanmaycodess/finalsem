@@ -25,7 +25,7 @@ const Bottombar = () => {
                                   }`}
                           />
 
-                          <p className="tiny-medium text-light-2">{link.label}</p>
+                          <p className="tiny-medium text-dark-2">{link.label}</p>
                       </Link>
 
 

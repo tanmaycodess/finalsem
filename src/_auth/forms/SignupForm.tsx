@@ -46,10 +46,22 @@ const SignupForm = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
-    // create user
-    const newUser = await createUserAccount(values);
+    // Ensure required properties are provided
+    if (!values.name || !values.email || !values.password) {
+      return toast({
+        title: "Please provide name, email, and password"
+      });
+    }
 
-    if(!newUser) {
+    // create user
+    const newUser = await createUserAccount({
+      name: values.name,
+      username:values.username,
+      email: values.email,
+      password: values.password,
+    });
+
+    if (!newUser) {
       return toast({
         title: "Sign up failed. Please try again"
       });
@@ -58,36 +70,35 @@ const SignupForm = () => {
     const session = await signInAccount({
       email: values.email,
       password: values.password,
-    })
+    });
 
-    if(!session) {
+    if (!session) {
       return toast({
         title: "Sign in failed. Please try again"
-      }); 
+      });
     }
 
     const isLoggedIn = await checkAuthUser();
 
-    if(isLoggedIn) {
+    if (isLoggedIn) {
       form.reset();
-      
       navigate('/');
-    }else{
-     return toast({title: 'sign up failed. Please try again'})
+    } else {
+      return toast({ title: 'Sign up failed. Please try again' });
     }
-    
   }
+
 
   return (
     <div>
       <Form {...form}>
-        <div className="sm:w-420 flex-center flex-col" >
+        <div className="sm:w-420 flex-center flex-col " >
           <img 
-            src="/assets/images/logo3.png" 
+            src="/assets/images/logo8.png" 
             alt="logo" 
           />
 
-          <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Create a new account</h2>
+          <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12 text-gray-200">Create a new account</h2>
 
           <p className="text-light-3 small-medium md:base-regular mt-2">To Use Pictify, Please enter your details</p>
 
@@ -97,7 +108,7 @@ const SignupForm = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel className="text-gray-200">Name</FormLabel>
                   <FormControl>
                     <Input type="text" className="shad-input" {...field} />
                   </FormControl>
@@ -111,7 +122,7 @@ const SignupForm = () => {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel className="text-gray-200">Username</FormLabel>
                   <FormControl>
                     <Input type="text" className="shad-input" {...field} />
                   </FormControl>
@@ -125,7 +136,7 @@ const SignupForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-gray-200">Email</FormLabel>
                   <FormControl>
                     <Input type="email" className="shad-input" {...field} />
                   </FormControl>
@@ -139,9 +150,9 @@ const SignupForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="text-gray-200">Password</FormLabel>
                   <FormControl>
-                    <Input type="password" className="shad-input" {...field} />
+                    <Input type="password" className="bg-gray-200" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -156,7 +167,7 @@ const SignupForm = () => {
               ) : "Sign Up"}
             </Button>
 
-            <p className="text-small-regular text-light-2 text-center mt-2">
+            <p className="text-small-regular text-gray-200 text-center mt-2">
               Already have an Account?
               <Link to="/sign-in" className="text-primary-500 text-small-semibold ml-1">Log in</Link>
             </p>

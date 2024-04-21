@@ -4,6 +4,7 @@ import Loader from "@/components/shared/Loader";
 import GridPostList from "@/components/shared/GridPostList";
 import { useGetPosts, useSearchPosts } from "@/lib/react-query/queriesAndMutaion";
 import { Input } from "@/components/ui/input";
+import Loader1 from "@/components/shared/Loader1";
 
 export type SearchResultProps = {
   isSearchFetching: boolean;
@@ -37,9 +38,14 @@ const Explore = () => {
 
   if (!posts) {
     return (
-      <div className="flex-center w-full h-full">
-        <Loader />
+
+      <div className="flex justify-center items-center w-screen h-screen">
+        <div className="flex justify-center items-center flex-col" style={{ marginRight: window.innerWidth > 768 ? '170px' : '0' }}>
+          <Loader1 />
+        </div>
       </div>
+
+
     );
   }
 
@@ -49,8 +55,8 @@ const Explore = () => {
   return (
     <div className="explore-container">
       <div className="explore-inner_container">
-        <h2 className="h3-bold md:h2-bold w-full">Search Posts</h2>
-        <div className="flex gap-1 px-4 w-full rounded-lg bg-dark-4">
+        <h2 className="h3-bold md:h2-bold w-full text-gray-200 text-center">Search Photos</h2>
+        <div className="flex gap-1 px-4 w-full rounded-lg bg-dark-4 text-white">
           <img
             src="/assets/icons/search.svg"
             width={24}
@@ -71,7 +77,7 @@ const Explore = () => {
       </div>
 
       <div className="flex-between w-full max-w-5xl mt-16 mb-7">
-        <h3 className="body-bold md:h3-bold">Popular</h3>
+        <h3 className="body-bold md:h3-bold text-gray-200">Popular</h3>
       </div>
 
       <div className="flex flex-wrap gap-9 w-full max-w-5xl">

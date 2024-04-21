@@ -109,19 +109,21 @@ export async function createPost(post: INewPost) {
         // Upload file to appwrite storage
         const uploadedFile = await uploadFile(post.file[0]);
 
-        if (!uploadedFile) throw Error;
+        if (!uploadedFile) {
+            throw new Error("Failed to upload file");
+        }
 
         // Get file url
         const fileUrl = getFilePreview(uploadedFile.$id);
         if (!fileUrl) {
             await deleteFile(uploadedFile.$id);
-            throw Error;
+            throw new Error("Failed to retrieve file URL");
         }
 
         // Convert tags into array
         const tags = post.tags?.replace(/ /g, "").split(",") || [];
 
-        // Create post
+        // Create post document
         const newPost = await databases.createDocument(
             appwriteConfig.databaseId,
             appwriteConfig.postCollectionId,
@@ -136,14 +138,15 @@ export async function createPost(post: INewPost) {
             }
         );
 
-        if (!newPost) {
+        if (!newPost?.$id) {
             await deleteFile(uploadedFile.$id);
-            throw Error;
+            throw new Error("Failed to create post");
         }
 
         return newPost;
     } catch (error) {
-        console.log(error);
+        console.error("Error creating post:", error.message);
+        throw error; // Rethrow the error to be handled by the caller
     }
 }
 

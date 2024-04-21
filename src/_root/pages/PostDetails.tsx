@@ -42,7 +42,7 @@ const PostDetails = () => {
             width={24}
             height={24}
           />
-          <p className="small-medium lg:base-medium">Back</p>
+          <p className="small-medium lg:base-medium text-gray-200">Back</p>
         </Button>
       </div>
 
@@ -137,7 +137,7 @@ const PostDetails = () => {
       <div className="w-full max-w-5xl">
         <hr className="border w-full border-dark-4/80" />
 
-        <h3 className="body-bold md:h3-bold w-full my-10">
+        <h3 className="body-bold md:h3-bold w-full my-10 text-gray-200">
           More Related Posts
         </h3>
         {isUserPostLoading || !relatedPosts ? (
