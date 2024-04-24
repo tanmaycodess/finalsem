@@ -3,7 +3,6 @@ import Loader1 from '@/components/shared/Loader1';
 import PostCard from '@/components/shared/PostCard';
 import { useGetRecentPosts } from '@/lib/react-query/queriesAndMutaion';
 import { Models } from 'appwrite';
-import { Link } from 'react-router-dom';
 
 const Home = () => {
   const { data: posts, isPending: isPostLoading } = useGetRecentPosts();
