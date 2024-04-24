@@ -51,7 +51,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                  imageId: post.imageId,
                  imageUrl: post.imageUrl,
                  file: value.file || [], // Provide a default empty array if value.file is undefined
-                 caption: " ",
+                 caption: value.caption,
              });
 
              if (!updatedPost) {

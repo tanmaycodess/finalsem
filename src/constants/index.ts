@@ -24,6 +24,7 @@ export const sidebarLinks = [
         route: "/create-post",
         label: "Upload",
     },
+    
 ];
 
 export const bottombarLinks = [
