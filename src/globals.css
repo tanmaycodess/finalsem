@@ -238,7 +238,7 @@
 
   /* Topbar */
  .topbar {
-   @apply  top-0 z-50 md:hidden bg-gray-200 text-white w-full;
+   @apply  sticky top-0 z-50 md:hidden bg-gray-200 text-white w-full;
  }
 
   /* User card */

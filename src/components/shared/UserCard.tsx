@@ -7,8 +7,12 @@ type UserCardProps = {
     user: Models.Document;
 };
 
+
 const UserCard = ({ user }: UserCardProps) => {
+   
     return (
+        <>
+        
         <Link to={`/profile/${user.$id}`} className="user-card">
             <img
                 src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
@@ -23,12 +27,18 @@ const UserCard = ({ user }: UserCardProps) => {
                 <p className="small-regular text-light-3 text-center line-clamp-1">
                     @{user.username}
                 </p>
+               
             </div>
 
             <Button type="button" size="sm" className="shad-button_primary px-5">
                 view
-            </Button>
+            </Button>            
         </Link>
+            <p className=" text-light-3 text-center">userID:</p>
+        <p className="small-regular text-gray-300 text-center line-clamp-1">
+            {user.$id}
+        </p>
+        </>
     );
 };
 

@@ -1,13 +1,11 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
-
-
-import { multiFormatDateString } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useUserContext } from "@/context/AuthContext";
 import { useDeletePost, useGetPostById, useGetUserPosts } from "@/lib/react-query/queriesAndMutaion";
-import { Button } from "@/components/ui/button";
 import Loader from "@/components/shared/Loader";
 import PostStats from "@/components/shared/PostStats";
 import GridPostList from "@/components/shared/GridPostList";
+import { multiFormatDateString } from '@/lib/utils';
 
 const PostDetails = () => {
   const navigate = useNavigate();
@@ -28,6 +26,9 @@ const PostDetails = () => {
     deletePost({ postId: id, imageId: post?.imageId });
     navigate(-1);
   };
+
+  // Check if the user is an admin or the creator of the post or the specific user with special permission
+  const canDeletePost = user.id === post?.creator.$id || user.id === "6604884b5b79441d58de";
 
   return (
     <div className="post_details-container">
@@ -97,18 +98,20 @@ const PostDetails = () => {
                   />
                 </Link>
 
-                <Button
-                  onClick={handleDeletePost}
-                  variant="ghost"
-                  className={`ost_details-delete_btn ${user.id !== post?.creator.$id && "hidden"
-                    }`}>
-                  <img
-                    src={"/assets/icons/delete.svg"}
-                    alt="delete"
-                    width={24}
-                    height={24}
-                  />
-                </Button>
+                {/* Only show the delete button if the user has permission */}
+                {canDeletePost && (
+                  <Button
+                    onClick={handleDeletePost}
+                    variant="ghost"
+                    className="ost_details-delete_btn">
+                    <img
+                      src={"/assets/icons/delete.svg"}
+                      alt="delete"
+                      width={24}
+                      height={24}
+                    />
+                  </Button>
+                )}
               </div>
             </div>
 

@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { PostValidation } from "@/lib/validation";
-import { useToast } from "@/components/ui/use-toast";
 import { useUserContext } from "@/context/AuthContext";
 import { useCreatePost, useUpdatePost } from "@/lib/react-query/queriesAndMutaion";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
@@ -23,7 +22,6 @@ type PostFormProps = {
 
 const PostForm = ({ post, action }: PostFormProps) => {
     const navigate = useNavigate();
-    const { toast } = useToast();
     const { user } = useUserContext();
     const form = useForm<z.infer<typeof PostValidation>>({
         resolver: zodResolver(PostValidation),
@@ -55,7 +53,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
              });
 
              if (!updatedPost) {
-                 toast({
+                 alert({
                      title: `${action} post failed. Please try again.`,
                  });
              }
@@ -75,7 +73,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
 
     if (!newPost) {
-      toast({
+      alert({
         title: `${action} post failed. Please try again.`,
       });
     }
@@ -168,7 +166,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                         className="shad-button_primary whitespace-nowrap"
                         disabled={isLoadingCreate || isLoadingUpdate}>
                         {(isLoadingCreate || isLoadingUpdate) && <Loader />}
-                        {action} Post
+                        upload
                     </Button>
                 </div>
             </form>
