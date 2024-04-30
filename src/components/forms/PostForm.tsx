@@ -13,6 +13,7 @@ import FileUploader from "../shared/FileUploader";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Loader from "../shared/Loader";
+import { convertImageToJPG } from "@/lib/utils";
 
 
 type PostFormProps = {
@@ -41,6 +42,13 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
     // Handler
      const handleSubmit = async (value: z.infer<typeof PostValidation>) => {
+
+         const convertedFiles = await Promise.all(
+             value.file.map(async (file: File) => {
+                 return await convertImageToJPG(file);
+             })
+         );
+
     // ACTION = UPDATE
          if (post && action === "Update") {
              const updatedPost = await updatePost({
@@ -48,10 +56,9 @@ const PostForm = ({ post, action }: PostFormProps) => {
                  postId: post.$id,
                  imageId: post.imageId,
                  imageUrl: post.imageUrl,
-                 file: value.file || [], // Provide a default empty array if value.file is undefined
+                 file: convertedFiles || [], // Provide a default empty array if convertedFiles is undefined
                  caption: value.caption,
              });
-
              if (!updatedPost) {
                  alert({
                      title: `${action} post failed. Please try again.`,
@@ -65,8 +72,8 @@ const PostForm = ({ post, action }: PostFormProps) => {
     // ACTION = CREATE
          const newPost = await createPost({
              userId: user.id,
-             caption: value.caption || '', // Provide a default empty string if caption is undefined
-             file: value.file,
+             caption: value.caption || '',
+             file: convertedFiles,
              location: value.location,
              tags: value.tags,
          });
