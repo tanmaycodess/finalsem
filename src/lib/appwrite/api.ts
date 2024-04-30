@@ -408,17 +408,25 @@ export async function getUserPosts(userId?: string) {
 
 export async function getRecentPosts() {
     try {
+        // Retrieve recent posts from the database
         const posts = await databases.listDocuments(
             appwriteConfig.databaseId,
             appwriteConfig.postCollectionId,
-            [Query.orderDesc("$createdAt"), Query.limit(20)]
+            [Query.orderDesc("$createdAt"), Query.limit(400)]
         );
 
-        if (!posts) throw Error;
+        // Check if posts are available
+        if (!posts || posts.total === 0) {
+            throw new Error('No posts found');
+        }
 
+        // Return the retrieved posts
         return posts;
     } catch (error) {
-        console.log(error);
+        // Handle the error
+        console.error('Error retrieving recent posts:', error);
+        // You might want to throw the error again if you want the caller to handle it
+        throw error;
     }
 }
 
