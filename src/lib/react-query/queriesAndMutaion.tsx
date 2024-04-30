@@ -61,9 +61,9 @@ export const useGetPosts = () => {
         queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
         queryFn: ({ pageParam }) => getInfinitePosts({ pageParam }), // Assuming getInfinitePosts takes a pageParam
         getNextPageParam: (lastPage) => {
-            if (lastPage && lastPage.documents.length === 0) return null;
+            if (!lastPage || lastPage.documents.length === 0) return null;
 
-            const lastId = lastPage.documents[lastPage?.documents.length - 1].$id;
+            const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
 
             // Convert lastId to number if it's a string
             return parseInt(lastId);
@@ -71,6 +71,7 @@ export const useGetPosts = () => {
         initialPageParam: 0
     })
 };
+
 
 export const useSearchPosts = (searchTerm: string) => {
     return useQuery({
